@@ -2,9 +2,10 @@
   "name": "codememory-x-vscode",
   "displayName": "CodeMemory X",
   "description": "Your code remembers everything. The Memory Layer of Software Development.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "devansh-gautam-codememory",
   "author": "Devansh Gautam",
+  "icon": "icon.png",
   "engines": {
     "vscode": "^1.88.0"
   },

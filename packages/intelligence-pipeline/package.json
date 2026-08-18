@@ -1,0 +1,31 @@
+{
+  "name": "@codememory/intelligence-pipeline",
+  "version": "0.1.0-alpha",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "test": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@codememory/core": "*",
+    "@codememory/event-bus": "*",
+    "@codememory/git-engine": "*",
+    "@codememory/logging": "*",
+    "@codememory/parser-sdk": "*",
+    "@codememory/shared": "*",
+    "@codememory/symbol-graph": "*",
+    "@codememory/tree-sitter-engine": "*",
+    "@codememory/workspace-watcher": "*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "@vitest/coverage-v8": "^1.6.0",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "@codememory/change-impact",
+  "version": "0.1.0-alpha",
+  "description": "Deterministic Change Impact Engine for CodeMemory X",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@codememory/confidence-engine": "*",
+    "@codememory/drift-sentinel": "*",
+    "@codememory/event-bus": "*",
+    "@codememory/event-store": "*",
+    "@codememory/git-engine": "*",
+    "@codememory/logging": "*",
+    "@codememory/memory-engine": "*",
+    "@codememory/memory-query": "*",
+    "@codememory/relationship-engine": "*",
+    "@codememory/shared": "*",
+    "@codememory/symbol-graph": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  }
+}

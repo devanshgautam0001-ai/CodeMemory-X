@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root, .vscode-dark {
+  --vscode-editor-background: #0f1117;
+  --vscode-sideBar-background: #161822;
+  --vscode-editorWidget-background: #1a1d2a;
+  --vscode-input-background: #13151f;
+  --vscode-widget-border: rgba(255, 255, 255, 0.08);
+  --vscode-panel-border: rgba(255, 255, 255, 0.08);
+  --vscode-list-hoverBackground: rgba(255, 255, 255, 0.05);
+  --vscode-focusBorder: #6366f1;
+  --vscode-foreground: #e2e8f0;
+  --vscode-descriptionForeground: #94a3b8;
+  --vscode-button-background: #4f46e5;
+  --vscode-button-hoverBackground: #4338ca;
+  --vscode-button-foreground: #ffffff;
+  --vscode-button-secondaryBackground: #262a3b;
+  --vscode-button-secondaryHoverBackground: #31364c;
+  --vscode-button-secondaryForeground: #cbd5e1;
+  --vscode-errorForeground: #f43f5e;
+}
+
+.vscode-light {
+  --vscode-editor-background: #ffffff;
+  --vscode-sideBar-background: #f8fafc;
+  --vscode-editorWidget-background: #f1f5f9;
+  --vscode-input-background: #ffffff;
+  --vscode-widget-border: #e2e8f0;
+  --vscode-panel-border: #e2e8f0;
+  --vscode-list-hoverBackground: #f1f5f9;
+  --vscode-focusBorder: #4f46e5;
+  --vscode-foreground: #0f172a;
+  --vscode-descriptionForeground: #64748b;
+  --vscode-button-background: #4f46e5;
+  --vscode-button-hoverBackground: #4338ca;
+  --vscode-button-foreground: #ffffff;
+  --vscode-button-secondaryBackground: #e2e8f0;
+  --vscode-button-secondaryHoverBackground: #cbd5e1;
+  --vscode-button-secondaryForeground: #1e293b;
+  --vscode-errorForeground: #e11d48;
+}
+
+.vscode-high-contrast {
+  --vscode-editor-background: #000000;
+  --vscode-sideBar-background: #000000;
+  --vscode-editorWidget-background: #000000;
+  --vscode-input-background: #000000;
+  --vscode-widget-border: #6b7280;
+  --vscode-panel-border: #6b7280;
+  --vscode-list-hoverBackground: #1f2937;
+  --vscode-focusBorder: #f59e0b;
+  --vscode-foreground: #ffffff;
+  --vscode-descriptionForeground: #d1d5db;
+  --vscode-button-background: #f59e0b;
+  --vscode-button-hoverBackground: #d97706;
+  --vscode-button-foreground: #000000;
+  --vscode-button-secondaryBackground: #374151;
+  --vscode-button-secondaryHoverBackground: #4b5563;
+  --vscode-button-secondaryForeground: #ffffff;
+  --vscode-errorForeground: #ff0000;
+}

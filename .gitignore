@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Build artifacts and caches
+dist/
+out/
+build/
+coverage/
+dist-storybook/
+.turbo/
+.cache/
+
+# Environment files and secrets
+.env
+.env.*
+
+# Logs and OS metadata
+*.log
+.DS_Store
+.ds_store
+Thumbs.db
+
+# IDE and Editor state
+.vscode/settings.json
+.vscode/*.code-snippets
+.idea/
+
+# Extension packaging artifacts
+*.vsix

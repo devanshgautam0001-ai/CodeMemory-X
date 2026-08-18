@@ -28,7 +28,22 @@ export class DatabaseProvider {
       return ok(this.db);
     }
     try {
-      const SQL = await initSqlJs();
+      const locateFile = (file: string) => {
+        const distWasm = path.join(__dirname, file);
+        if (fs.existsSync(distWasm)) {
+          return distWasm;
+        }
+        try {
+          const nmWasm = require.resolve('sql.js/dist/sql-wasm.wasm');
+          if (fs.existsSync(nmWasm)) {
+            return nmWasm;
+          }
+        } catch (e) {
+          // ignore error
+        }
+        return file;
+      };
+      const SQL = await initSqlJs({ locateFile });
       let loadedFromDisk = false;
 
       if (this.currentDbPath) {

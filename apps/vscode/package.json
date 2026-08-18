@@ -2,7 +2,7 @@
   "name": "codememory-x-vscode",
   "displayName": "CodeMemory X",
   "description": "Your code remembers everything. The Memory Layer of Software Development.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "devansh-gautam-codememory",
   "author": "Devansh Gautam",
   "icon": "icon.png",
@@ -71,7 +71,7 @@
     }
   },
   "scripts": {
-    "build": "esbuild src/extension.ts --bundle --platform=node --target=node18 --external:vscode --outfile=dist/extension.js && node -e \"const fs=require('fs'); fs.cpSync('../webview/dist', './dist/webview', { recursive: true });\"",
+    "build": "esbuild src/extension.ts --bundle --platform=node --target=node18 --external:vscode --outfile=dist/extension.js && node -e \"const fs=require('fs'); fs.cpSync('../webview/dist', './dist/webview', { recursive: true }); const wasmPath=require.resolve('sql.js/dist/sql-wasm.wasm'); fs.copyFileSync(wasmPath, './dist/sql-wasm.wasm');\"",
     "typecheck": "tsc --noEmit",
     "lint": "tsc --noEmit",
     "test": "vitest run"

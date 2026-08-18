@@ -64,8 +64,12 @@ export class SidebarWebviewProvider implements vscode.WebviewViewProvider, vscod
     const workspaceFolders = vscode.workspace.workspaceFolders;
     if (workspaceFolders && workspaceFolders.length > 0) {
       const workspacePath = workspaceFolders[0].uri.fsPath;
-      await this.pipeline.initialize(workspacePath);
-      await this.broadcastPipelineUpdate();
+      try {
+        await this.pipeline.initialize(workspacePath);
+        await this.broadcastPipelineUpdate();
+      } catch (err) {
+        this.logger?.error('Error initializing vertical slice pipeline in sidebar webview:', err as Error);
+      }
 
       // Listen for Live TypeScript File Edits
       const saveListener = vscode.workspace.onDidSaveTextDocument(async (document) => {

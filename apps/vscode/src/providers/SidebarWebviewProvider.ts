@@ -123,12 +123,27 @@ export class SidebarWebviewProvider implements vscode.WebviewViewProvider, vscod
     );
   }
 
+  public switchTab(tab: string): void {
+    if (this.currentWebviewView) {
+      this.currentWebviewView.show?.(true);
+      this.messageBridge.sendToWebview(
+        (msg) => this.currentWebviewView?.webview.postMessage(msg),
+        'SWITCH_TAB',
+        { tab }
+      );
+    }
+  }
+
   private getWebviewDistUri(): vscode.Uri {
     const internalDistWebview = vscode.Uri.joinPath(this.extensionUri, 'dist', 'webview');
     if (fs.existsSync(internalDistWebview.fsPath)) {
       return internalDistWebview;
     }
-    return vscode.Uri.joinPath(this.extensionUri, '..', 'webview', 'dist');
+    const siblingDistWebview = vscode.Uri.joinPath(this.extensionUri, '..', 'webview', 'dist');
+    if (fs.existsSync(siblingDistWebview.fsPath)) {
+      return siblingDistWebview;
+    }
+    return internalDistWebview;
   }
 
   private getHtmlForWebview(webview: vscode.Webview): string {

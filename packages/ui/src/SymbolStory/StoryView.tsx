@@ -16,7 +16,20 @@ export interface StoryViewProps {
   story?: SymbolStoryData;
 }
 
-export const StoryView: React.FC<StoryViewProps> = ({ story = MOCK_SYMBOL_STORY }) => {
+export const StoryView: React.FC<StoryViewProps> = ({ story: rawStory }) => {
+  const story = rawStory || MOCK_SYMBOL_STORY;
+  const safeStory: SymbolStoryData = {
+    ...story,
+    symbol: story.symbol || MOCK_SYMBOL_STORY.symbol,
+    birth: story.birth || MOCK_SYMBOL_STORY.birth,
+    evolution: story.evolution || MOCK_SYMBOL_STORY.evolution,
+    contributors: story.contributors || MOCK_SYMBOL_STORY.contributors,
+    decisions: story.decisions || MOCK_SYMBOL_STORY.decisions,
+    bugs: story.bugs || MOCK_SYMBOL_STORY.bugs,
+    dependencies: story.dependencies || MOCK_SYMBOL_STORY.dependencies,
+    metrics: story.metrics || MOCK_SYMBOL_STORY.metrics,
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 15 }}
@@ -36,28 +49,28 @@ export const StoryView: React.FC<StoryViewProps> = ({ story = MOCK_SYMBOL_STORY 
       </div>
 
       {/* Header Info */}
-      <StoryHeader symbol={story.symbol} />
+      <StoryHeader symbol={safeStory.symbol} />
 
       {/* Birth Story */}
-      <StoryBirth birth={story.birth} />
+      <StoryBirth birth={safeStory.birth} />
 
       {/* Metrics */}
-      <StoryMetrics metrics={story.metrics} />
+      <StoryMetrics metrics={safeStory.metrics} />
 
       {/* Timeline */}
-      <StoryTimeline evolution={story.evolution} />
+      <StoryTimeline evolution={safeStory.evolution} />
 
       {/* Contributors */}
-      <StoryContributors contributors={story.contributors} />
+      <StoryContributors contributors={safeStory.contributors} />
 
       {/* ADR Decisions */}
-      <StoryDecisions decisions={story.decisions} />
+      <StoryDecisions decisions={safeStory.decisions} />
 
       {/* Bugs */}
-      <StoryBugs bugs={story.bugs} />
+      <StoryBugs bugs={safeStory.bugs} />
 
       {/* Dependency Graph Preview */}
-      <StoryGraphPreview dependencies={story.dependencies} />
+      <StoryGraphPreview dependencies={safeStory.dependencies} />
 
       {/* AI Prediction Placeholder */}
       <StoryAiPlaceholder />

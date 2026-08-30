@@ -14,7 +14,23 @@ export interface TimelineViewProps {
   data?: TimelineData;
 }
 
-export const TimelineView: React.FC<TimelineViewProps> = ({ data = MOCK_TIMELINE_DATA }) => {
+export const TimelineView: React.FC<TimelineViewProps> = ({ data: rawData }) => {
+  const data = rawData || MOCK_TIMELINE_DATA;
+  const sessions = data.sessions && data.sessions.length > 0 ? data.sessions : MOCK_TIMELINE_DATA.sessions;
+  const stats = data.stats || MOCK_TIMELINE_DATA.stats;
+  const heatmap = data.heatmap || MOCK_TIMELINE_DATA.heatmap;
+  const safeData: TimelineData = {
+    ...data,
+    sessions,
+    stats,
+    heatmap,
+    projectName: data.projectName || MOCK_TIMELINE_DATA.projectName,
+    workspace: data.workspace || MOCK_TIMELINE_DATA.workspace,
+    sessionDuration: data.sessionDuration || MOCK_TIMELINE_DATA.sessionDuration,
+    currentBranch: data.currentBranch || MOCK_TIMELINE_DATA.currentBranch,
+    totalMemories: data.totalMemories ?? MOCK_TIMELINE_DATA.totalMemories,
+  };
+
   const [query, setQuery] = useState('');
   const [showFilters, setShowFilters] = useState(false);
   const [activeType, setActiveType] = useState('All');
@@ -23,9 +39,9 @@ export const TimelineView: React.FC<TimelineViewProps> = ({ data = MOCK_TIMELINE
   const [selectedEvent, setSelectedEvent] = useState<TimelineEventItem | null>(null);
 
   const filteredSessions = useMemo(() => {
-    return data.sessions
+    return safeData.sessions
       .map((session) => {
-        const filteredEvents = session.events.filter((evt) => {
+        const filteredEvents = (session.events || []).filter((evt) => {
           if (activeType !== 'All' && evt.type !== activeType) return false;
           if (activeAuthor !== 'All' && evt.author !== activeAuthor) return false;
           if (evt.importance < minImportance) return false;
@@ -46,7 +62,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({ data = MOCK_TIMELINE
         };
       })
       .filter((session) => session.events.length > 0);
-  }, [data, query, activeType, activeAuthor, minImportance]);
+  }, [safeData, query, activeType, activeAuthor, minImportance]);
 
   const hasEvents = filteredSessions.length > 0;
 
@@ -59,11 +75,11 @@ export const TimelineView: React.FC<TimelineViewProps> = ({ data = MOCK_TIMELINE
     >
       {/* Header */}
       <TimelineHeader
-        projectName={data.projectName}
-        workspace={data.workspace}
-        sessionDuration={data.sessionDuration}
-        currentBranch={data.currentBranch}
-        totalMemories={data.totalMemories}
+        projectName={safeData.projectName}
+        workspace={safeData.workspace}
+        sessionDuration={safeData.sessionDuration}
+        currentBranch={safeData.currentBranch}
+        totalMemories={safeData.totalMemories}
         showFilters={showFilters}
         onToggleFilters={() => setShowFilters(!showFilters)}
       />
@@ -86,10 +102,10 @@ export const TimelineView: React.FC<TimelineViewProps> = ({ data = MOCK_TIMELINE
       </div>
 
       {/* Statistics Cards */}
-      <StatisticsCards stats={data.stats} />
+      <StatisticsCards stats={safeData.stats} />
 
       {/* Contribution Heatmap */}
-      <Heatmap data={data.heatmap} />
+      <Heatmap data={safeData.heatmap} />
 
       {/* Timeline Sessions List */}
       <div className="flex-1 space-y-3 min-h-0">

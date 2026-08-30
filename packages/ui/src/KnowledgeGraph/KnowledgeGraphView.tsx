@@ -15,13 +15,19 @@ export interface KnowledgeGraphViewProps {
 }
 
 export const KnowledgeGraphView: React.FC<KnowledgeGraphViewProps> = ({
-  dataset = MOCK_KNOWLEDGE_GRAPH,
+  dataset: rawDataset,
 }) => {
+  const dataset = rawDataset || MOCK_KNOWLEDGE_GRAPH;
+  const safeNodes = dataset.nodes && dataset.nodes.length > 0 ? dataset.nodes : MOCK_KNOWLEDGE_GRAPH.nodes;
+  const safeEdges = dataset.edges || MOCK_KNOWLEDGE_GRAPH.edges;
+  const safeStats = dataset.stats || MOCK_KNOWLEDGE_GRAPH.stats;
+  const safeDataset: GraphDataset = { ...dataset, nodes: safeNodes, edges: safeEdges, stats: safeStats };
+
   const [query, setQuery] = useState('');
   const [showFilters, setShowFilters] = useState(false);
   const [activeType, setActiveType] = useState('All');
   const [layoutMode, setLayoutMode] = useState('force');
-  const [selectedNode, setSelectedNode] = useState<GraphNodeData | null>(dataset.nodes[0] || null);
+  const [selectedNode, setSelectedNode] = useState<GraphNodeData | null>(safeNodes[0] || null);
 
   return (
     <motion.div
@@ -79,13 +85,13 @@ export const KnowledgeGraphView: React.FC<KnowledgeGraphViewProps> = ({
       </div>
 
       {/* Statistics Cards */}
-      <GraphStatistics stats={dataset.stats} />
+      <GraphStatistics stats={safeDataset.stats} />
 
       {/* Main Graph Canvas Area + Floating Legends & Inspector Drawer */}
       <div className="relative flex flex-col md:flex-row gap-3 items-start min-h-0">
         <div className="flex-1 w-full relative">
           <GraphCanvas
-            dataset={dataset}
+            dataset={safeDataset}
             activeType={activeType}
             searchQuery={query}
             selectedNode={selectedNode}
@@ -94,7 +100,7 @@ export const KnowledgeGraphView: React.FC<KnowledgeGraphViewProps> = ({
 
           {/* Floating Overlay Controls: MiniMap & Legend */}
           <div className="absolute top-3 right-3 z-20 flex flex-col gap-2 pointer-events-auto">
-            <MiniMap dataset={dataset} />
+            <MiniMap dataset={safeDataset} />
             <GraphLegend />
           </div>
         </div>

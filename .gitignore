@@ -28,3 +28,4 @@ Thumbs.db
 # Extension packaging artifacts
 *.vsix
 scratch/
+.codememory/

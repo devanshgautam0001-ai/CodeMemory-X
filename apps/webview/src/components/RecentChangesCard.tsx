@@ -1,8 +1,11 @@
 import React from 'react';
 import { GitCommit, Plus, Minus, FileCode } from 'lucide-react';
 import { Card, Badge } from '@codememory/ui';
+import { useDashboardStore } from '../store/useDashboardStore.js';
 
 export const RecentChangesCard: React.FC = () => {
+  const { setActiveTab } = useDashboardStore();
+
   const changes = [
     {
       id: 'c1',
@@ -28,7 +31,8 @@ export const RecentChangesCard: React.FC = () => {
         {changes.map((c) => (
           <div
             key={c.id}
-            className="flex items-center justify-between p-2 rounded-lg bg-hover/20 border border-border/40 text-xs font-mono"
+            onClick={() => setActiveTab('story')}
+            className="flex items-center justify-between p-2 rounded-lg bg-hover/20 border border-border/40 text-xs font-mono cursor-pointer hover:border-accent/40 transition-all"
           >
             <div className="flex items-center space-x-2.5 min-w-0">
               <FileCode size={14} className="text-accent shrink-0" />

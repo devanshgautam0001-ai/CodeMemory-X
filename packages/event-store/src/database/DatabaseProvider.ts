@@ -29,17 +29,25 @@ export class DatabaseProvider {
     }
     try {
       const locateFile = (file: string) => {
-        const distWasm = path.join(__dirname, file);
+        const primaryWasm = path.join(__dirname, file);
+        if (fs.existsSync(primaryWasm)) {
+          return primaryWasm;
+        }
+        const parentWasm = path.join(__dirname, '..', file);
+        if (fs.existsSync(parentWasm)) {
+          return parentWasm;
+        }
+        const distWasm = path.join(__dirname, 'dist', file);
         if (fs.existsSync(distWasm)) {
           return distWasm;
         }
         try {
-          const nmWasm = require.resolve('sql.js/dist/sql-wasm.wasm');
+          const nmWasm = require.resolve('sql.js/dist/' + file);
           if (fs.existsSync(nmWasm)) {
             return nmWasm;
           }
         } catch (e) {
-          // ignore error
+          // ignore error when node_modules is not present
         }
         return file;
       };

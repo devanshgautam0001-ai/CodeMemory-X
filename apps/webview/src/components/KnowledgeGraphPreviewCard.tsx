@@ -1,19 +1,25 @@
 import React from 'react';
 import { Network, Maximize2 } from 'lucide-react';
 import { Card, Badge, Button } from '@codememory/ui';
+import { useDashboardStore } from '../store/useDashboardStore.js';
 
 export const KnowledgeGraphPreviewCard: React.FC = () => {
+  const { setActiveTab } = useDashboardStore();
+
   return (
     <Card
       title="Knowledge Graph Spatial Topology"
       subtitle="CodeSymbol, DecisionNode & BugImmunity Edges"
       action={
-        <Button variant="ghost" size="sm">
+        <Button variant="ghost" size="sm" onClick={() => setActiveTab('graph')}>
           <Maximize2 size={14} />
         </Button>
       }
     >
-      <div className="relative w-full h-44 rounded-lg bg-hover/20 border border-border/50 p-4 flex items-center justify-center overflow-hidden">
+      <div
+        onClick={() => setActiveTab('graph')}
+        className="relative w-full h-44 rounded-lg bg-hover/20 border border-border/50 p-4 flex items-center justify-center overflow-hidden cursor-pointer hover:border-accent/50 transition-all"
+      >
         {/* Animated Spatial Node Mesh Mock */}
         <svg className="absolute inset-0 w-full h-full opacity-40">
           <line x1="20%" y1="30%" x2="50%" y2="50%" stroke="var(--vscode-focusBorder)" strokeWidth="1.5" strokeDasharray="3 3" />

@@ -19,10 +19,6 @@ export function activate(context: vscode.ExtensionContext): void {
   });
   context.subscriptions.push(configDisposable);
 
-  // Command Registry initialization
-  const commandRegistry = new CommandRegistry(logger);
-  commandRegistry.registerAll(context);
-
   // Sidebar Webview Provider registration
   sidebarProvider = new SidebarWebviewProvider(context.extensionUri, logger);
   const viewDisposable = vscode.window.registerWebviewViewProvider(
@@ -30,6 +26,10 @@ export function activate(context: vscode.ExtensionContext): void {
     sidebarProvider
   );
   context.subscriptions.push(sidebarProvider, viewDisposable);
+
+  // Command Registry initialization
+  const commandRegistry = new CommandRegistry(logger);
+  commandRegistry.registerAll(context, () => sidebarProvider);
 
   logger.info('CodeMemory X Extension Host successfully activated.', { currentConfig });
 }

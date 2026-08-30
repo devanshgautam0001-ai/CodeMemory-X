@@ -7,3 +7,5 @@ dist/__mocks__/
 tsconfig.json
 vitest.config.ts
 *.map
+node_modules/
+*.vsix

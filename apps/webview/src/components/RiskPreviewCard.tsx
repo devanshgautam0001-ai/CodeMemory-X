@@ -1,13 +1,20 @@
 import React from 'react';
 import { ShieldCheck, AlertCircle, Sparkles } from 'lucide-react';
 import { Card, Badge } from '@codememory/ui';
+import { useDashboardStore } from '../store/useDashboardStore.js';
 
 export const RiskPreviewCard: React.FC = () => {
+  const { setActiveTab } = useDashboardStore();
+
   return (
     <Card
       title="Architectural Drift & Risk Sentinel"
       subtitle="Pre-commit bug immunity & decision compliance checks"
-      action={<Badge variant="success">0 Critical Risks</Badge>}
+      action={
+        <button onClick={() => setActiveTab('graph')} className="cursor-pointer">
+          <Badge variant="success">0 Critical Risks</Badge>
+        </button>
+      }
     >
       <div className="space-y-3">
         <div className="flex items-center space-x-3 p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs">

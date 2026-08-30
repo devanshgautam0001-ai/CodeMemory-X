@@ -1,8 +1,11 @@
 import React from 'react';
 import { Activity, Terminal, FileCode, MessageSquare, CheckCircle } from 'lucide-react';
 import { Card, Badge } from '@codememory/ui';
+import { useDashboardStore } from '../store/useDashboardStore.js';
 
 export const ActivityFeedCard: React.FC = () => {
+  const { setActiveTab } = useDashboardStore();
+
   const activities = [
     {
       id: '1',
@@ -37,7 +40,11 @@ export const ActivityFeedCard: React.FC = () => {
     <Card
       title="Sub-conscious Telemetry Stream"
       subtitle="Passive background micro-actions capture"
-      action={<Badge variant="default">Live Stream</Badge>}
+      action={
+        <button onClick={() => setActiveTab('activity')} className="cursor-pointer">
+          <Badge variant="default">Live Stream</Badge>
+        </button>
+      }
     >
       <div className="space-y-3 mt-1">
         {activities.map((item) => (

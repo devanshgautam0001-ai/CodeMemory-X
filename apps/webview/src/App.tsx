@@ -10,6 +10,7 @@ import { ActivityFeed } from './components/ActivityFeed.js';
 import { SettingsView } from './components/SettingsView.js';
 import { AssistantView } from './components/AssistantView.js';
 import { CommandPaletteModal } from './components/CommandPaletteModal.js';
+import { ErrorBoundary } from './components/ErrorBoundary.js';
 import { useDashboardStore } from './store/useDashboardStore.js';
 
 import { rpcClient } from './rpc/WebviewRpcClient.js';
@@ -17,6 +18,7 @@ import { rpcClient } from './rpc/WebviewRpcClient.js';
 export const App: React.FC = () => {
   const {
     activeTab,
+    setActiveTab,
     searchQuery,
     setSearchQuery,
     setCommandPaletteOpen,
@@ -30,6 +32,9 @@ export const App: React.FC = () => {
       const msg = event.data;
       if (msg && msg.command === 'UPDATE_STATE' && msg.payload) {
         setLiveState(msg.payload);
+      }
+      if (msg && msg.command === 'SWITCH_TAB' && msg.payload?.tab) {
+        setActiveTab(msg.payload.tab);
       }
     };
 
@@ -46,7 +51,7 @@ export const App: React.FC = () => {
       });
 
     return () => window.removeEventListener('message', handleMessage);
-  }, [setLiveState]);
+  }, [setLiveState, setActiveTab]);
 
   // Keyboard shortcut handler (Cmd+K / Ctrl+K)
   useEffect(() => {
@@ -113,7 +118,7 @@ export const App: React.FC = () => {
 
         {/* View Area */}
         <main className="flex-1 overflow-y-auto p-6">
-          {renderTabContent()}
+          <ErrorBoundary>{renderTabContent()}</ErrorBoundary>
         </main>
 
         {/* Footer Bar */}

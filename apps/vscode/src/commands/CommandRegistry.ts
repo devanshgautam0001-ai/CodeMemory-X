@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { CommandDispatcher } from './CommandDispatcher.js';
+import { SidebarWebviewProvider } from '../providers/SidebarWebviewProvider.js';
 import { ILogger } from '@codememory/logging';
 
 export class CommandRegistry {
@@ -9,25 +10,47 @@ export class CommandRegistry {
     this.dispatcher = new CommandDispatcher(logger);
   }
 
-  public registerAll(context: vscode.ExtensionContext): void {
+  public registerAll(
+    context: vscode.ExtensionContext,
+    getSidebarProvider?: () => SidebarWebviewProvider | undefined
+  ): void {
     const openDashboardDisposable = this.dispatcher.registerCommand(
       'codememory.openDashboard',
-      () => {
-        vscode.window.showInformationMessage('CodeMemory X: Memory Dashboard Loaded');
+      async () => {
+        await vscode.commands.executeCommand('codememory.sidebarView.focus');
+        getSidebarProvider?.()?.switchTab('dashboard');
+      }
+    );
+
+    const openTimelineDisposable = this.dispatcher.registerCommand(
+      'codememory.openTimeline',
+      async () => {
+        await vscode.commands.executeCommand('codememory.sidebarView.focus');
+        getSidebarProvider?.()?.switchTab('timeline');
+      }
+    );
+
+    const openGraphDisposable = this.dispatcher.registerCommand(
+      'codememory.openGraph',
+      async () => {
+        await vscode.commands.executeCommand('codememory.sidebarView.focus');
+        getSidebarProvider?.()?.switchTab('graph');
       }
     );
 
     const recordDecisionDisposable = this.dispatcher.registerCommand(
       'codememory.recordDecision',
-      () => {
-        vscode.window.showInformationMessage('CodeMemory X: ADR Capture Prompt Ready');
+      async () => {
+        await vscode.commands.executeCommand('codememory.sidebarView.focus');
+        getSidebarProvider?.()?.switchTab('dashboard');
       }
     );
 
     const showStoryDisposable = this.dispatcher.registerCommand(
       'codememory.showStory',
-      () => {
-        vscode.window.showInformationMessage('CodeMemory X: Symbol Story Lineage Active');
+      async () => {
+        await vscode.commands.executeCommand('codememory.sidebarView.focus');
+        getSidebarProvider?.()?.switchTab('story');
       }
     );
 
@@ -40,6 +63,8 @@ export class CommandRegistry {
 
     context.subscriptions.push(
       openDashboardDisposable,
+      openTimelineDisposable,
+      openGraphDisposable,
       recordDecisionDisposable,
       showStoryDisposable,
       showStatusDisposable
